@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chá da Luísa</title>
+  <style>
+    :root {
+      --bg: #fff9fb;
+      --bg-2: #fffdfd;
+      --card: rgba(255, 255, 255, 0.88);
+      --text: #5f5a67;
+      --muted: #8f8995;
+      --pink: #f6b7c8;
+      --pink-strong: #eb91ab;
+      --yellow: #f5d57c;
+      --blue: #b8d3f5;
+      --lilac: #c8b7ef;
+      --mint: #cceee7;
+      --border: rgba(232, 212, 226, 0.95);
+      --shadow: 0 18px 45px rgba(160, 130, 150, 0.12);
+      --radius: 28px;
+      --radius-sm: 20px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(246, 183, 200, 0.18) 0 6px, transparent 7px),
+        radial-gradient(circle at 85% 10%, rgba(200, 183, 239, 0.18) 0 5px, transparent 6px),
+        radial-gradient(circle at 18% 72%, rgba(184, 211, 245, 0.16) 0 6px, transparent 7px),
+        radial-gradient(circle at 78% 78%, rgba(245, 213, 124, 0.18) 0 6px, transparent 7px),
+        linear-gradient(180deg, #fff9fb 0%, #fffefd 100%);
+      background-size: 220px 220px, 260px 260px, 240px 240px, 260px 260px, auto;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 34px 0 20px;
+    }
+
+    .hero-card {
+      animation: fadeUp 0.8s ease both;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,251,253,0.95) 100%);
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+    }
+
+    .flags {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .flag {
+      width: 36px;
+      height: 26px;
+      border-radius: 0 0 18px 18px;
+      opacity: 0.95;
+    }
+
+    .flag:nth-child(1), .flag:nth-child(6) { background: var(--pink); }
+    .flag:nth-child(2), .flag:nth-child(7) { background: var(--lilac); }
+    .flag:nth-child(3), .flag:nth-child(8) { background: var(--yellow); }
+    .flag:nth-child(4), .flag:nth-child(9) { background: var(--blue); }
+    .flag:nth-child(5), .flag:nth-child(10) { background: #f8cfd8; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: #fff4f8;
+      border: 1px solid var(--border);
+      font-size: 0.92rem;
+      color: var(--pink-strong);
+      margin-bottom: 18px;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      line-height: 1;
+      margin-bottom: 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .luisa {
+      display: inline-block;
+      background: linear-gradient(90deg, #b87bce 0%, #ff8ea1 28%, #f2c65f 56%, #a8c7ef 84%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 58ch;
+      margin-bottom: 22px;
+    }
+
+    .hero-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.88);
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-size: 0.98rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--pink) 0%, var(--pink-strong) 100%);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(235, 145, 171, 0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .hero-side {
+      background: linear-gradient(180deg, #fff7fb 0%, #fdfcff 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      min-height: 100%;
+      position: relative;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.45;
+      background:
+        radial-gradient(circle at 18% 22%, #f5d57c 0 3px, transparent 4px),
+        radial-gradient(circle at 80% 16%, #c8b7ef 0 3px, transparent 4px),
+        radial-gradient(circle at 70% 78%, #b8d3f5 0 3px, transparent 4px),
+        radial-gradient(circle at 15% 72%, #f6b7c8 0 3px, transparent 4px);
+    }
+
+    .kawaii-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .mini-emoji {
+      font-size: 2.3rem;
+      margin-bottom: 8px;
+    }
+
+    .section {
+      padding: 24px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 1.85rem;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .section-text {
+      color: var(--muted);
+      max-width: 66ch;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .legend span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .gift-card {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.7s ease forwards;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.18s ease;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .gift-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .gift-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .gift-title {
+      font-size: 1.12rem;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .gift-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .gift-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .price {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--pink-strong);
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.82rem;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+    }
+
+    .gift-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .small-btn.primary {
+      background: #ffe8ef;
+      color: var(--pink-strong);
+    }
+
+    .small-btn.secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .pix-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      margin: 14px 0 10px;
+      font-size: 0.98rem;
+    }
+
+    .copy-feedback {
+      color: var(--pink-strong);
+      font-size: 0.92rem;
+      min-height: 22px;
+      margin-top: 10px;
+    }
+
+    .qr-box {
+      border: 2px dashed var(--border);
+      border-radius: 24px;
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 22px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.82);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .step {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .step strong {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #fff2f7;
+      color: var(--pink-strong);
+      margin-bottom: 10px;
+    }
+
+    .faq {
+      display: grid;
+      gap: 12px;
+    }
+
+    details {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    details p {
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    footer {
+      position: relative;
+      padding: 34px 0 54px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .info-grid,
+      .gift-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatSoft {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .mini-card {
+      animation: floatSoft 4s ease-in-out infinite;
+    }
+
+    .mini-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .mini-card:nth-child(3) {
+      animation-delay: 0.8s;
+    }
+
+    .mini-card:nth-child(4) {
+      animation-delay: 1.2s;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .sparkle {
+      position: absolute;
+      font-size: 14px;
+      opacity: 0.22;
+      animation: drift linear infinite;
+      user-select: none;
+    }
+
+    @keyframes drift {
+      from {
+        transform: translateY(100vh) rotate(0deg);
+      }
+      to {
+        transform: translateY(-15vh) rotate(240deg);
+      }
+    }
+
+    main, header, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 720px) {
+      .hero-card {
+        padding: 22px;
+      }
+
+      .kawaii-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        font-size: 1.55rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="flags" aria-hidden="true">
+          <span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span>
+          <span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span>
+        </div>
+
+        <div class="hero-grid" style="grid-template-columns: 1fr;">
+          <div style="max-width: 760px; margin: 0 auto; text-align: center;">
+            <span class="eyebrow">✨ Junte-se a nós no chá da Luísa</span>
+            <h1>Um cantinho doce para celebrar a chegada da <span class="luisa">Luísa</span></h1>
+            <p class="subtitle" style="margin-left: auto; margin-right: auto;">
+              Preparamos esse espaço com muito carinho para compartilhar esse momento tão especial. Inspirado no nosso convite, tudo aqui foi pensado para ser leve, delicado e fácil para vocês.
+            </p>
+
+            <div class="hero-info" style="justify-content: center;">
+              <span class="pill">📅 04 de abril</span>
+              <span class="pill">🕐 às 13 horas</span>
+              <span class="pill">📍 Rua Guarapuava, 174 - Mooca</span>
+              <a class="pill" href="https://www.google.com/maps/search/?api=1&query=Rua+Guarapuava,+174+-+Mooca" target="_blank">🗺️ Ver no mapa</a>
+            </div>
+
+            <div class="hero-actions" style="justify-content: center;">
+              <a href="#presentes" class="btn btn-primary">Ver lista de presentes</a>
+              <a href="#pix" class="btn btn-secondary">Contribuir via PIX</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section reveal" id="presentes">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Lista de presentes da Luísa 💕</h2>
+            <p class="section-text">Escolha um presente com carinho 💖 — os valores são sugestões simbólicas que podem ser enviados via PIX.</p>
+          </div>
+          <div class="legend">
+            <span>💸 valores variados</span>
+            <span>🎀 nomes personalizados</span>
+            <span>🍼 estilo iFraldas</span>
+          </div>
+        </div>
+
+        <div class="gift-grid" id="giftGrid"></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="convite">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Nosso save the date</h2>
+            <p class="section-text">Incluímos o convite para manter o mesmo clima delicado, colorido e afetivo em todo o site.</p>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 18px; overflow: hidden;">
+          <img src="/mnt/data/5bcf2798-916b-41bb-af8a-39e571822a6f.png" alt="Save the date do chá da Luísa" style="width: 100%; max-width: 520px; margin: 0 auto; display: block; border-radius: 24px;" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="pix">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Contribuir via PIX 💸</h2>
+            <p class="section-text">Se preferir, você pode contribuir diretamente com qualquer valor. Toda ajuda será muito bem-vinda 💕</p>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="card">
+            <h3>Chave PIX</h3>
+            <p style="color: var(--muted); margin-top: 8px;">Chave PIX de Caic Gonçalves Horvath.</p>
+            <input id="pixKey" class="pix-input" type="text" readonly value="416.750.078-70" />
+            <button class="btn btn-primary" id="copyPixBtn">Copiar chave PIX</button>
+            <p class="copy-feedback" id="copyFeedback"></p>
+
+            <div class="steps">
+              <div class="step"><strong>1</strong><p>Escolha um presente ou contribuição.</p></div>
+              <div class="step"><strong>2</strong><p>Copie a chave PIX com um toque.</p></div>
+              <div class="step"><strong>3</strong><p>Envie uma mensagem avisando, se quiser.</p></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>QR Code PIX</h3>
+            <div class="qr-box" style="border-style: solid; background: #f8f8f8; padding: 14px;">
+              <img src="/mnt/data/aa74f32c-0eb0-45a5-9661-2127fb660641.png" alt="QR Code PIX de Caic Gonçalves Horvath" style="max-width: 100%; width: 320px; border-radius: 16px; display: block; margin: 0 auto;" />
+            </div>
+            <p style="margin-top: 14px; color: var(--muted);">Favorecido: <strong>Caic Gonçalves Horvath</strong><br />CPF / Chave PIX: <strong>416.750.078-70</strong></p>
+            <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+              <a class="btn btn-secondary" href="https://wa.me/5511999999999?text=Oi!%20Acabei%20de%20fazer%20uma%20contribui%C3%A7%C3%A3o%20para%20o%20ch%C3%A1%20da%20Lu%C3%ADsa%20%F0%9F%92%95" target="_blank" rel="noopener noreferrer">Avisar no WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Dúvidas frequentes 💭</h2>
+          </div>
+        </div>
+
+        <div class="faq">
+          <details>
+            <summary>Os presentes são físicos ou simbólicos?</summary>
+            <p>Os itens funcionam como sugestões simbólicas de contribuição, no estilo de chá de bebê online. Vocês podem converter os valores em PIX e usar da forma mais útil para a chegada da Luísa.</p>
+          </details>
+          <details>
+            <summary>Existe valor mínimo?</summary>
+            <p>Não. A ideia é deixar opções acessíveis, médias e especiais para que cada convidado escolha com liberdade.</p>
+          </details>
+          <details>
+            <summary>Posso personalizar nomes e valores?</summary>
+            <p>Sim. Toda a lista foi estruturada em JavaScript para facilitar ajustes rápidos de nome, categoria, valor e descrição.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Feito com muito carinho para celebrar a chegada da Luísa 💕<br />
+      Estamos ansiosos para viver esse momento com você ✨
+    </div>
+  </footer>
+
+  <script>
+    const gifts = [
+      {
+        icon: '🧷',
+        title: 'Pacotinho de Amor',
+        description: 'Uma ajudinha para as primeiras fraldinhas da Luísa.',
+        price: 40,
+        category: 'Essencial',
+        bg: '#fff0f5'
+      },
+      {
+        icon: '🌈',
+        title: 'Abraço de Algodão',
+        description: 'Contribuição inspirada nas fraldas P para os primeiros meses.',
+        price: 55,
+        category: 'Essencial',
+        bg: '#fef8e7'
+      },
+      {
+        icon: '☁️',
+        title: 'Soninho Tranquilo',
+        description: 'Um presente cheio de carinho para a fase das fraldas M.',
+        price: 65,
+        category: 'Essencial',
+        bg: '#eef5ff'
+      },
+      {
+        icon: '🧸',
+        title: 'Cuidado Delicado',
+        description: 'Ajuda simbólica para lenços e itens do dia a dia.',
+        price: 35,
+        category: 'Essencial',
+        bg: '#f4efff'
+      },
+      {
+        icon: '💗',
+        title: 'Proteção de Ursinho',
+        description: 'Um mimo para pomadinhas e cuidados especiais.',
+        price: 25,
+        category: 'Essencial',
+        bg: '#fff1f6'
+      },
+      {
+        icon: '👶',
+        title: 'Lookinho da Luísa',
+        description: 'Contribuição inspirada em body fofinho para a bebê.',
+        price: 50,
+        category: 'Fofo',
+        bg: '#eef9ff'
+      },
+      {
+        icon: '🎀',
+        title: 'Primeiro Passeio',
+        description: 'Um presentinho no clima dos macacões e saídas especiais.',
+        price: 80,
+        category: 'Fofo',
+        bg: '#fff4ec'
+      },
+      {
+        icon: '🧦',
+        title: 'Pequenos Passinhos',
+        description: 'Inspirado em meias e acessórios delicados.',
+        price: 25,
+        category: 'Fofo',
+        bg: '#f4f3ff'
+      },
+      {
+        icon: '🧢',
+        title: 'Cabecinha Quentinha',
+        description: 'Um carinho para touquinhas e peças aconchegantes.',
+        price: 30,
+        category: 'Fofo',
+        bg: '#fff9ea'
+      },
+      {
+        icon: '🛁',
+        title: 'Banho Encantado',
+        description: 'Contribuição especial para a hora do banho da Luísa.',
+        price: 120,
+        category: 'Especial',
+        bg: '#eef9f7'
+      },
+      {
+        icon: '🌙',
+        title: 'Ninho de Amor',
+        description: 'Um presente maior, inspirado no aconchego da amamentação.',
+        price: 150,
+        category: 'Especial',
+        bg: '#f7f2ff'
+      },
+      {
+        icon: '✨',
+        title: 'Sonhos Doces',
+        description: 'Ajuda simbólica para itens do cantinho da bebê.',
+        price: 180,
+        category: 'Especial',
+        bg: '#fff2f7'
+      },
+      {
+        icon: '💖',
+        title: 'Um Carinho para a Luísa',
+        description: 'Contribuição livre, cheia de afeto.',
+        price: 30,
+        category: 'Livre',
+        bg: '#fff1f5'
+      },
+      {
+        icon: '🌟',
+        title: 'Mimos com Amor',
+        description: 'Para quem quer participar com um valor delicado e simbólico.',
+        price: 50,
+        category: 'Livre',
+        bg: '#fff9e9'
+      },
+      {
+        icon: '🎁',
+        title: 'Presente dos Sonhos',
+        description: 'Uma contribuição especial para apoiar esse novo começo.',
+        price: 100,
+        category: 'Livre',
+        bg: '#eef5ff'
+      }
+    ];
+
+    const giftGrid = document.getElementById('giftGrid');
+
+    gifts.forEach((gift, index) => {
+      const card = document.createElement('article');
+      card.className = 'gift-card';
+      card.style.animationDelay = `${index * 0.08}s`; 
+      card.innerHTML = `
+        <div class="gift-top">
+          <div>
+            <h3 class="gift-title">${gift.title}</h3>
+            <p class="gift-desc">${gift.description}</p>
+          </div>
+          <div class="gift-icon" style="background:${gift.bg}">${gift.icon}</div>
+        </div>
+        <div class="gift-meta">
+          <span class="tag">${gift.category}</span>
+          <span class="price">R$ ${gift.price.toFixed(2).replace('.', ',')}</span>
+        </div>
+        <div class="gift-actions">
+          <button class="small-btn primary choose-gift" data-gift="${gift.title}" data-price="R$ ${gift.price.toFixed(2).replace('.', ',')}">Escolher presente</button>
+          <a class="small-btn secondary" href="#pix">Ver PIX</a>
+        </div>
+      `;
+      giftGrid.appendChild(card);
+    });
+
+    const copyPixBtn = document.getElementById('copyPixBtn');
+    const pixKeyInput = document.getElementById('pixKey');
+    const copyFeedback = document.getElementById('copyFeedback');
+
+    copyPixBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pixKeyInput.value);
+        copyFeedback.textContent = 'Chave PIX copiada com sucesso!';
+      } catch (error) {
+        pixKeyInput.select();
+        document.execCommand('copy');
+        copyFeedback.textContent = 'Chave PIX copiada!';
+      }
+
+      setTimeout(() => {
+        copyFeedback.textContent = '';
+      }, 2500);
+    });
+
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    const sparkles = document.getElementById('sparkles');
+    const sparkleSymbols = ['✨', '⭐', '💖', '☁️', '🎈'];
+
+    for (let i = 0; i < 18; i++) {
+      const sparkle = document.createElement('span');
+      sparkle.className = 'sparkle';
+      sparkle.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+      sparkle.style.left = `${Math.random() * 100}%`;
+      sparkle.style.animationDuration = `${10 + Math.random() * 12}s`;
+      sparkle.style.animationDelay = `${Math.random() * 8}s`;
+      sparkle.style.fontSize = `${12 + Math.random() * 14}px`;
+      sparkles.appendChild(sparkle);
+    }
+
+    document.addEventListener('click', async (event) => {
+      const button = event.target.closest('.choose-gift');
+      if (!button) return;
+
+      const gift = button.dataset.gift;
+      const price = button.dataset.price;
+      const originalText = button.textContent;
+
+      try {
+        await navigator.clipboard.writeText(pixKeyInput.value);
+        copyFeedback.textContent = `Você escolheu "${gift}" (${price}). A chave PIX foi copiada.`;
+        window.location.hash = 'pix';
+      } catch (error) {
+        copyFeedback.textContent = `Você escolheu "${gift}" (${price}). Copie a chave PIX manualmente.`;
+        window.location.hash = 'pix';
+      }
+
+      button.textContent = 'Selecionado ✨';
+      setTimeout(() => {
+        button.textContent = originalText;
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
